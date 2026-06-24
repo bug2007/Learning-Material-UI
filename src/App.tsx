@@ -1,6 +1,7 @@
 import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors } from "@mui/material"
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-import { styled } from '@mui/material/styles';
+import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
+import { red, blue } from '@mui/material/colors';
 
 // Creating reusable styled components
 // const CustomSlider = styled(Slider)<SliderProps>(({ theme }) => ({  // the extra parenthesis mean 'return'. can also access the theme obj inside sx prop
@@ -26,6 +27,36 @@ const CustomSlider = styled(Slider, {shouldForwardProp: (prop) => prop !== 'erro
     }
   }
 }))
+
+// Global theme overrides. will apply to everything but u gotta wrap everything with ThemeProvider for that
+const theme = createTheme({  
+  typography: {
+    fontFamily: 'Poppins',
+    button: {  // setting fontsize inside all buttons that are under theme={theme}
+      fontSize: '5rem'
+    }
+  },
+
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableRipple: true,
+        variant: 'contained'
+      },
+
+      // customize button stylings for all possible states and variants
+      styleOverrides: {  
+        root: {
+          // fontSize: '2rem',
+          variants: [
+            { props: {variant: 'outlined', color: 'secondary'}, style: {fontSize: '.5rem'}}, { props: {variant: 'dashed'}, style: {border: `4px dashed ${red[500]}`}}, { props: (props) => props.variant === 'dashed' && props.color !== 'secondary', style: {border: `2px dashed ${blue[500]}`}}  // when variant is outlined and color is secondary, use fontSize .5rem. 'dashed' is a custom variant we added. mui doesnt have it by default
+          ]
+        },
+        // outlined: {}  // if the above syntax is hard for u, do this way instead (but u will have access to only a few properties here)
+      }
+    }
+  }
+})
 
 function App() {
   return (
@@ -61,14 +92,19 @@ function App() {
     // </Container>
     // </>
 
-    <>
+    // can also define a 'theme2' and use ThemeProvider inside another ThemeProvider to apply differnt styles to another part of the app
+    <ThemeProvider theme={theme}>  
     <CssBaseline />
     <Container maxWidth='xs' sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <Stack spacing={2}>
         <CustomSlider error />
+        <Button>Submitt</Button>
+        <Button variant="outlined" color="secondary">Custom Variant</Button>
+        {/* mui doesnt have 'dashed' by default. but u can create such custom variants using createTheme */}
+        <Button variant="dashed">Dashed</Button>  
       </Stack>
     </Container>
-    </>
+    </ThemeProvider>
 
   
   )
