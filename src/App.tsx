@@ -1,4 +1,4 @@
-import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors } from "@mui/material"
+import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography } from "@mui/material"
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
 import { red, blue } from '@mui/material/colors';
@@ -54,6 +54,16 @@ const theme = createTheme({
         },
         // outlined: {}  // if the above syntax is hard for u, do this way instead (but u will have access to only a few properties here)
       }
+    },
+    // Global CSS Overrides   
+    MuiCssBaseline: {
+      // can use any name such as 'theme'
+      styleOverrides: (themeParam) => `  
+
+      h1 {
+        color: ${themeParam.palette.success.main}
+      }
+      `
     }
   }
 })
@@ -101,7 +111,8 @@ function App() {
         <Button>Submitt</Button>
         <Button variant="outlined" color="secondary">Custom Variant</Button>
         {/* mui doesnt have 'dashed' by default. but u can create such custom variants using createTheme */}
-        <Button variant="dashed">Dashed</Button>  
+        <Button variant="dashed">Dashed</Button> 
+        <Typography variant="h1">H1</Typography> 
       </Stack>
     </Container>
     </ThemeProvider>
