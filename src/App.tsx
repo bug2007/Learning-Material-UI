@@ -31,6 +31,17 @@ const CustomSlider = styled(Slider, {shouldForwardProp: (prop) => prop !== 'erro
 
 // Global theme overrides. will apply to everything but u gotta wrap everything with ThemeProvider for that
 const theme = createTheme({  
+
+  // modifying default breakpoint pixels and adding new values such as 'mobile', 'tablet' etc. Gotta do module augmentation for that
+  breakpoints: {
+    values: {
+      // xl: 700,
+      mobile: 0,
+      tablet: 640,
+      laptop: 1024,
+      desktop: 1200
+    }
+  },
   colorSchemes: {  // tells mui that this app supports both light and dark mode. but dark by default
     // dark: true
     dark: {
@@ -160,7 +171,7 @@ function App() {
 
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth='md'>
+      <Container maxWidth='laptop'>
         {/* container means it's the parent grid */}
         <Grid container spacing={2}>  
           <Grid size={{xs: 12, md: 6, xl: 4}}>  
@@ -174,6 +185,7 @@ function App() {
             <Button fullWidth>3</Button>
           </Grid>
         </Grid>
+        <Button sx={{ backgroundColor: 'green', [theme.breakpoints.between('xs', 'lg')] : {backgroundColor: 'red'}}}>Reponsive Button</Button>
       </Container>
     </ThemeProvider>
   )

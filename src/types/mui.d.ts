@@ -19,3 +19,14 @@ declare module '@mui/material/styles' {
         custom?: PaletteOptions['primary']  // providing custom is optional inside createTheme, just like light, dark, contrastText etc. are and not the 'main'
     }
 }
+
+declare module '@mui/material/styles' {
+    interface BreakpointOverrides {
+        sm: false;  // removes the 'xs' breakpoint
+        // lg: false;
+        mobile: true;   // adds the 'mobile' breakpoint
+        tablet: true;
+        laptop: true;
+        desktop: true;
+    }
+}
