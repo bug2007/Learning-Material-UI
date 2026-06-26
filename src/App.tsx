@@ -1,4 +1,4 @@
-import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography, RadioGroup, FormControlLabel, Radio, alpha } from "@mui/material"
+import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography, RadioGroup, FormControlLabel, Radio, alpha, Grid } from "@mui/material"
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import { createTheme, styled, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { red, blue, purple, lime } from '@mui/material/colors';
@@ -138,24 +138,43 @@ function App() {
     // </>
 
     // can also define a 'theme2' and use ThemeProvider inside another ThemeProvider to apply differnt styles to another part of the app
-    <ThemeProvider theme={theme}>  
-    <CssBaseline />
-    <Container maxWidth='xs' sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <Stack spacing={2}>
-        <ThemeToggle />
-        <CustomSlider error />
-        {/* by default, variant is contained and color is primary. which means the button has a background which is primary color (by default blue, but u can change in the palette) */}
-        <Button>Submitt</Button>  
-        <Button variant="outlined" color="secondary">Custom Variant</Button>
-        {/* mui doesnt have 'dashed' by default. but u can create such custom variants using createTheme */}
-        <Button variant="dashed">Dashed</Button> 
-        <Button color="secondary">Secondary</Button>
-        <Button color="custom">Lime</Button>
-        {/* in light mode, color is red, in dark mode, it's blue */}
-        <Button sx={[ {backgroundColor: 'red'}, (theme) => theme.applyStyles('dark', {backgroundColor: 'blue'})] }>Dark/Light</Button>  
-        <Typography variant="h1">H1</Typography> 
-      </Stack>
-    </Container>
+    // <ThemeProvider theme={theme}>  
+    // <CssBaseline />
+    // <Container maxWidth='xs' sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    //   <Stack spacing={2}>
+    //     <ThemeToggle />
+    //     <CustomSlider error />
+    //     {/* by default, variant is contained and color is primary. which means the button has a background which is primary color (by default blue, but u can change in the palette) */}
+    //     <Button>Submitt</Button>  
+    //     <Button variant="outlined" color="secondary">Custom Variant</Button>
+    //     {/* mui doesnt have 'dashed' by default. but u can create such custom variants using createTheme */}
+    //     <Button variant="dashed">Dashed</Button> 
+    //     <Button color="secondary">Secondary</Button>
+    //     <Button color="custom">Lime</Button>
+    //     {/* in light mode, color is red, in dark mode, it's blue */}
+    //     <Button sx={[ {backgroundColor: 'red'}, (theme) => theme.applyStyles('dark', {backgroundColor: 'blue'})] }>Dark/Light</Button>  
+    //     <Typography variant="h1">H1</Typography> 
+    //   </Stack>
+    // </Container>
+    // </ThemeProvider>
+
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth='md'>
+        {/* container means it's the parent grid */}
+        <Grid container spacing={2}>  
+          <Grid size={{xs: 12, md: 6, xl: 4}}>  
+            <Button fullWidth>1</Button>
+          </Grid>
+          <Grid size={{xs: 12, md: 6, xl: 4}}>
+            <Button fullWidth>2</Button>
+          </Grid>
+          {/* its width will be calculated according to the widths of the other items in the grid */}
+          <Grid size='grow'>  
+            <Button fullWidth>3</Button>
+          </Grid>
+        </Grid>
+      </Container>
     </ThemeProvider>
   )
 }
