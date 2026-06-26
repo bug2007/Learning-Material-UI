@@ -1,7 +1,8 @@
-import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography } from "@mui/material"
+import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography, RadioGroup, FormControlLabel, Radio, alpha } from "@mui/material"
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
-import { red, blue } from '@mui/material/colors';
+import { createTheme, styled, ThemeProvider, useColorScheme } from '@mui/material/styles';
+import { red, blue, purple, lime } from '@mui/material/colors';
+import { CheckBox } from "@mui/icons-material";
 
 // Creating reusable styled components
 // const CustomSlider = styled(Slider)<SliderProps>(({ theme }) => ({  // the extra parenthesis mean 'return'. can also access the theme obj inside sx prop
@@ -30,6 +31,27 @@ const CustomSlider = styled(Slider, {shouldForwardProp: (prop) => prop !== 'erro
 
 // Global theme overrides. will apply to everything but u gotta wrap everything with ThemeProvider for that
 const theme = createTheme({  
+  colorSchemes: {  // tells mui that this app supports both light and dark mode. but dark by default
+    // dark: true
+    dark: {
+      palette: {  // a collection of colors: it has primary, secondary, error, warning, success, background
+        primary: {
+          main: '#543345' // default is blue
+        }
+      }
+    },
+    light: {
+      palette: {
+        primary: {
+          main: alpha("#ff0000", 0.5)
+        },
+        secondary: purple,
+        custom: { // custom is not recognized by mui so do module augmentation 
+          main: lime[500]
+        }  
+      }
+    }
+  },
   typography: {
     fontFamily: 'Poppins',
     button: {  // setting fontsize inside all buttons that are under theme={theme}
@@ -67,6 +89,19 @@ const theme = createTheme({
     }
   }
 })
+
+function ThemeToggle() {
+  const { mode, setMode } = useColorScheme();  // connected to the ThemeProvider. mui's setMode only understands the values 'light', 'dark', 'system'
+  if (!mode) return null   // dont render anything until mode has a value
+
+  return (
+    <RadioGroup value={mode} onChange={(e) => setMode(e.target.value as 'system' | 'light' | 'dark')}>
+      <FormControlLabel control={<Radio />} value='system' label='System' />
+      <FormControlLabel control={<Radio />} value='light' label='Light' />
+      <FormControlLabel control={<Radio />} value='dark' label='Dark' />
+    </RadioGroup>
+  )
+}
 
 function App() {
   return (
@@ -107,17 +142,21 @@ function App() {
     <CssBaseline />
     <Container maxWidth='xs' sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <Stack spacing={2}>
+        <ThemeToggle />
         <CustomSlider error />
-        <Button>Submitt</Button>
+        {/* by default, variant is contained and color is primary. which means the button has a background which is primary color (by default blue, but u can change in the palette) */}
+        <Button>Submitt</Button>  
         <Button variant="outlined" color="secondary">Custom Variant</Button>
         {/* mui doesnt have 'dashed' by default. but u can create such custom variants using createTheme */}
         <Button variant="dashed">Dashed</Button> 
+        <Button color="secondary">Secondary</Button>
+        <Button color="custom">Lime</Button>
+        {/* in light mode, color is red, in dark mode, it's blue */}
+        <Button sx={[ {backgroundColor: 'red'}, (theme) => theme.applyStyles('dark', {backgroundColor: 'blue'})] }>Dark/Light</Button>  
         <Typography variant="h1">H1</Typography> 
       </Stack>
     </Container>
     </ThemeProvider>
-
-  
   )
 }
 
