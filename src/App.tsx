@@ -1,4 +1,4 @@
-import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography, RadioGroup, FormControlLabel, Radio, alpha, Grid } from "@mui/material"
+import { Button, CssBaseline, TextField, Slider, Stack, Container, type SliderProps, colors, Typography, RadioGroup, FormControlLabel, Radio, alpha, Grid, useMediaQuery } from "@mui/material"
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import { createTheme, styled, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { red, blue, purple, lime } from '@mui/material/colors';
@@ -125,7 +125,13 @@ function ThemeToggle() {
   )
 }
 
+// const useIsTablet = () => useMediaQuery("(min-width: 640px)")  // in another file suppose
+
 function App() {
+  const isTablet = useMediaQuery("(min-width: 640px)")
+  // OR
+  // const isTablet = useIsTablet();
+
   return (
     // <>
     // <CssBaseline />  
@@ -199,6 +205,7 @@ function App() {
         <Button sx={{ backgroundColor: 'green', [theme.breakpoints.between('xs', 'lg')] : {backgroundColor: 'red'}}}>Reponsive Button</Button>
       </Container>
       <Typography variant="h3">H3</Typography>
+      {isTablet ? <>tablet</> : <>not tablet</>}
     </ThemeProvider>
   )   
 }   
