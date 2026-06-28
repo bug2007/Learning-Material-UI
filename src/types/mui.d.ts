@@ -22,7 +22,7 @@ declare module '@mui/material/styles' {
 
 declare module '@mui/material/styles' {
     interface BreakpointOverrides {
-        sm: false;  // removes the 'xs' breakpoint
+        // sm: false;  // removes the 'xs' breakpoint
         // lg: false;
         mobile: true;   // adds the 'mobile' breakpoint
         tablet: true;

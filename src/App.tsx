@@ -67,7 +67,7 @@ const theme = createTheme({
     fontFamily: 'Poppins',
     button: {  // setting fontsize inside all buttons that are under theme={theme}
       fontSize: '5rem'
-    }
+    },
   },
 
   components: {
@@ -100,6 +100,17 @@ const theme = createTheme({
     }
   }
 })
+
+theme.typography.h3 = {
+  fontSize: '1.2rem', // Mobile/Default size
+  '@media (min-width: 600px)': {
+    fontSize: '1.5rem' // Tablet
+  },
+  [theme.breakpoints.up('laptop')]: {  // from the lg breakpoint and everything larger
+    fontSize: '10rem' // Desktop
+  }
+}
+
 
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();  // connected to the ThemeProvider. mui's setMode only understands the values 'light', 'dark', 'system'
@@ -187,8 +198,9 @@ function App() {
         </Grid>
         <Button sx={{ backgroundColor: 'green', [theme.breakpoints.between('xs', 'lg')] : {backgroundColor: 'red'}}}>Reponsive Button</Button>
       </Container>
+      <Typography variant="h3">H3</Typography>
     </ThemeProvider>
-  )
-}
+  )   
+}   
 
 export default App
